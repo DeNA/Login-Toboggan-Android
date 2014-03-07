@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.logintoboggan"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <permission
+        android:name="com.example.logintoboggan.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" >
+    </permission>
+
+    <uses-permission android:name="com.example.logintoboggan.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <application
+        android:name="com.example.logintoboggan.LoginToboggan"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+         
+        <receiver
+            android:name="com.mobage.global.android.c2dm.C2DMBaseReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.example.logintoboggan" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.example.logintoboggan.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+        Provided by MobageNDK
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        -->
+
+        <activity android:name="com.facebook.LoginActivity" >
+        </activity>
+        <activity
+            android:name="com.example.logintoboggan.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName="com.example.logintoboggan.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.logintoboggan.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.logintoboggan.RewardActivity"
+            android:label="@string/title_activity_reward"
+            android:parentActivityName="com.example.logintoboggan.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.logintoboggan.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.logintoboggan.TutorialActivity"
+            android:label="@string/title_activity_tutorial"
+            android:parentActivityName="com.example.logintoboggan.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.logintoboggan.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.logintoboggan.InviteActivity"
+            android:label="@string/title_activity_invite"
+            android:parentActivityName="com.example.logintoboggan.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.logintoboggan.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>
