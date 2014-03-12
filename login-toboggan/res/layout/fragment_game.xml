@@ -8,12 +8,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
      >
 
+    <LinearLayout 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"
+        android:orientation="vertical">   
+        
     <TextView
         android:id="@+id/gameHeadingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="86dp"
         android:text="Login Toboggan"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -22,7 +26,7 @@
         android:id="@+id/gameMessageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_below="@+id/gameHeadingText"
         android:layout_marginTop="22dp"
         android:text="all systems go"
@@ -32,32 +36,28 @@
         android:id="@+id/fbUpgradeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="33dp"
         android:layout_below="@+id/gameMessageText"
-    
         android:text="Facebook Upgrade" />
 
+    <ImageButton
+        android:id="@+id/button_mobage_icon"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="fitCenter"
+         android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/mobage_top_left" />   
     
-    <LinearLayout 
-        android:layout_below="@+id/fbInviteButton"
-        android:id="@+id/fbHelpRequestButtons"
-        android:layout_marginTop="33dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </LinearLayout>
-    
-
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/gameMessageText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="170dp"
+       android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
         android:text="Logout" />
-  
-
+    
+  </LinearLayout>
 </RelativeLayout>

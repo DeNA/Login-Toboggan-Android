@@ -78,7 +78,6 @@ public class InitState implements GameState<AppState, LoginTobogganGameStateResu
 				mobageInitFailure(reason);
 			}
 		});
-
 	}
 
 	@Override
@@ -100,13 +99,21 @@ public class InitState implements GameState<AppState, LoginTobogganGameStateResu
 		}
 	}
 
-	private void mobageInitFailure(String msg)
+	private void mobageInitFailure(final String msg)
 	{
-		InitFragment initFragment = (InitFragment) theApp.getMainActivity().getFragment(FragmentType.Init);
+		final InitFragment initFragment = (InitFragment) theApp.getMainActivity().getFragment(FragmentType.Init);
 		theApp.getMainActivity().switchFragment(FragmentType.Init);
 		
-		// enable init retry
-		initFragment.enableRetryInit(msg);
+		theApp.getMainActivity().runOnUiThread(new Runnable(){
+
+			@Override
+			public void run()
+			{
+				// enable init retry
+				initFragment.enableRetryInit(msg);
+			}
+		});
+		
 	}
 
 }

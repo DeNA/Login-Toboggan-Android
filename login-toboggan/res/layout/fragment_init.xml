@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="86dp"
-        android:text="Initializing Face Blaster"
+        android:text="Initializing Sample"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView

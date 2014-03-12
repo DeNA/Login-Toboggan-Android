@@ -31,8 +31,11 @@ import com.example.logintoboggan.statemachine.GameStateMachine;
 import com.example.logintoboggan.ui.GameFragment;
 import com.example.logintoboggan.ui.InitFragment;
 import com.example.logintoboggan.ui.LoginFragment;
+import com.mobage.global.android.notification.MobageNotifications.MobageUIVisible;
+import com.mobage.global.android.notification.Notification;
+import com.mobage.global.android.notification.NotificationCenter.INotificationCenterCallback;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends FragmentActivity 
 {
 	public enum FragmentType
 	{
@@ -106,14 +109,12 @@ public class MainActivity extends FragmentActivity
 			// restore dialog state
 			currentDialogMessage = savedInstanceState.getString("CurrentDialogMessage");
 			dialogActive = savedInstanceState.getBoolean("DialogActive");
-
 		}
 
 		initFragments();
 		currentFragment = getFragment(currentFragmentType);
 		
 		getHash();
-		
 	}
 	
 	private void getHash()
@@ -356,7 +357,12 @@ public class MainActivity extends FragmentActivity
 	{
 		if (mIsInForegroundMode)
 		{
-			mProgressDialog = ProgressDialog.show(MainActivity.this, "", message, true);
+			if(mProgressDialog != null)
+			{
+				mProgressDialog.setMessage(message);
+			}
+			else mProgressDialog = ProgressDialog.show(MainActivity.this, "", message, true);
+			
 			currentDialogMessage = message;
 			dialogActive = true;
 		}
@@ -394,5 +400,6 @@ public class MainActivity extends FragmentActivity
 		int duration = Toast.LENGTH_SHORT;
 		Toast.makeText(context, message, duration).show();
 	}
+
 
 }

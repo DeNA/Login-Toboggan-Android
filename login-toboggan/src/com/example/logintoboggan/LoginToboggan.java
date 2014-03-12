@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.example.logintoboggan.helper.FacebookHelper;
 import com.example.logintoboggan.helper.MobageHelper;
+import com.example.logintoboggan.helper.MobageHelper.GetUserInfoCallback;
 import com.example.logintoboggan.state.FacebookConnectState;
 import com.example.logintoboggan.state.FacebookLoginState;
 import com.example.logintoboggan.state.FacebookUpgradeState;
@@ -16,6 +17,10 @@ import com.example.logintoboggan.state.MobageLoginState;
 import com.example.logintoboggan.state.StartState;
 import com.example.logintoboggan.statemachine.GameStateMachine;
 import com.example.logintoboggan.statemachine.GameStateLink.LinkDirection;
+import com.mobage.global.android.data.User;
+import com.mobage.global.android.notification.Notification;
+import com.mobage.global.android.notification.MobageNotifications.MobageUIVisible;
+import com.mobage.global.android.notification.NotificationCenter.INotificationCenterCallback;
 
 import android.app.AlertDialog;
 import android.app.Application;
@@ -23,7 +28,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-public class LoginToboggan extends Application
+public class LoginToboggan extends Application implements INotificationCenterCallback  
 {
 	public enum AppState
 	{
@@ -49,6 +54,9 @@ public class LoginToboggan extends Application
 	private GameStateMachine<AppState, LoginTobogganGameStateResult> mGameStateMachine;
 	private MainActivity mainActivity;
 	private LoginTobogganGameStateResult gameStateResult;
+	
+	private Runnable onMobageUIVisible;
+	private Runnable onMobageUINotVisible;
 
 	private boolean mFirstLogin;
 
@@ -66,6 +74,11 @@ public class LoginToboggan extends Application
 	public LoginToboggan()
 	{
 		theInstance = this;
+		onMobageUIVisible = null;
+		onMobageUINotVisible = null;
+		
+		// Listen to Mobage UI Visible notification
+		MobageUIVisible.addObserver(this);
 	}
 
 	@Override
@@ -80,7 +93,52 @@ public class LoginToboggan extends Application
 		setupStateMachine();
 
 		mFirstLogin = false;
+	}
+	
 
+	@Override
+	public void onNotificationReceived(Notification notification)
+	{
+		if (notification instanceof MobageUIVisible) 
+		{
+		//	Log.d(TAG, "UI Notification received");
+			
+			boolean visible = ((MobageUIVisible)notification).getVisible();
+
+		//	String toastMsg = "MobageUIVisible notification received: "+visible;
+		//	Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
+			
+			if(!visible)mobageUINotVisible();
+			else mobageUIVisible();
+		}
+	}
+	
+	public void setOnMobageUIVisibleCallabck(Runnable runnable)
+	{
+		onMobageUIVisible = runnable;
+	}
+	
+	public void setOnMobageUINotVisibleCallabck(Runnable runnable)
+	{
+		onMobageUINotVisible = runnable;
+	}
+	
+	public void mobageUIVisible()
+	{
+		if(onMobageUIVisible != null)
+		{
+			onMobageUIVisible.run();
+			onMobageUIVisible = null;
+		}
+	}
+	
+	public void mobageUINotVisible()
+	{
+		if(onMobageUINotVisible != null)
+		{
+			onMobageUINotVisible.run();
+			onMobageUINotVisible = null;
+		}
 	}
 
 	public MainActivity getMainActivity()
@@ -168,25 +226,26 @@ public class LoginToboggan extends Application
 
 	public void showSpinner(String msg)
 	{
-		//((MainActivity) mainActivity).showSpinner(msg);
-		((MainActivity) mainActivity).showSpinnerDirect(msg);
+		mainActivity.showSpinnerDirect(msg);
 	}
-
-	/*public void showSpinner(String msg)
-	{
-		((MainActivity) mainActivity).showSpinnerDirect(msg);
-	}*/
 
 	public void hideSpinner()
 	{
-		//((MainActivity) mainActivity).hideSpinner();
-		((MainActivity) mainActivity).hideSpinnerDirect();
+		mainActivity.hideSpinnerDirect();
 	}
 
-	/*public void hideSpinnerDirect()
+	public void getUser(final GetUserInfoCallback callback)
 	{
-		((MainActivity) mainActivity).hideSpinnerDirect();
-	}*/
+		getMobageHelper().getUserInfo(new GetUserInfoCallback(){
+
+			@Override
+			public void onComplete(User user)
+			{
+				callback.onComplete(user);			
+			}	
+		});	
+	}
+
 
 	public void showSimpleDialog(String title, String message)
 	{
