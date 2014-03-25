@@ -332,7 +332,7 @@ public class MobageHelper
 		{
 			@Override
 			// MobageNDK BUG: method name should be onComplete
-			public void a(CancelableAPIStatus status, Error error)
+			public void onComplete(CancelableAPIStatus status, Error error)
 			{
 				switch (status)
 				{
